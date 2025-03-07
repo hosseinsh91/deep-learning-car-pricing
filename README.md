@@ -26,6 +26,38 @@ The dataset contains **205 rows** and **26 features**, including:
 ---
 
 ## **📌 Data Preprocessing**
-### **1️⃣ Removing Unnecessary Columns**
+### 
+**1️⃣ Removing Unnecessary Columns**
 ```python
 df = df.drop(['car_ID', 'CarName'], axis=1)
+```
+## 2️⃣ Encoding Categorical Features
+```python
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+for col in df.columns:
+    if df[col].dtype == 'object':
+        df[col] = le.fit_transform(df[col])
+```
+## 3️⃣ Handling Missing Values
+```python
+df = df.dropna()
+df = df.drop_duplicates()
+
+```
+## 4️⃣ Splitting Dataset
+```python
+from sklearn.model_selection import train_test_split
+X = df.drop(['price'], axis=1)
+y = df['price']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=42)
+
+```
+## 5️⃣ Feature Scaling
+```python
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+```
